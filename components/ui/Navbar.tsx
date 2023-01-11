@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import NextLink from 'next/link';
 import React from 'react';
 
-export const Navbar = () => {
+const Navbar = () => {
   return (
     <AppBar>
       <Toolbar>
@@ -59,3 +59,5 @@ export const Navbar = () => {
     </AppBar>
   );
 };
+
+export default Navbar;
