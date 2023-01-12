@@ -14,7 +14,7 @@ const Navbar = () => {
       <Toolbar>
         <NextLink href={'/'} passHref>
           <Link display={'flex'} alignItems='center'>
-            <Typography variant='h6'>Ecommerce</Typography>
+            <Typography variant='h6'>Ecommerce | </Typography>
             <Typography sx={{ ml: 0.5 }}>Shop</Typography>
           </Link>
         </NextLink>
