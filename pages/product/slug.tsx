@@ -1,7 +1,7 @@
 import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { ShopLayout } from '../../components/layouts';
-import { SlidesShow } from '../../components/ui';
+import { ProductCounter, SizeSelector, SlidesShow } from '../../components/ui';
 import { initialData } from '../../database/products';
 
 const product = initialData.products[1];
@@ -23,6 +23,8 @@ const ProductPage = () => {
             </Typography>
             <Box sx={{ my: 2 }}>
               <Typography variant='subtitle2'>Cantidad</Typography>
+              <ProductCounter />
+              <SizeSelector selectedSize='S' sizes={product.sizes} />
             </Box>
 
             <Button color='secondary' className='circular-btn'>
