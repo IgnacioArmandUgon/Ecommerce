@@ -1,0 +1,11 @@
+services:
+  ecommercedb:
+    image: mongo:5.0.0
+    container_name: ecommerce-database
+    ports:
+      # mapeo puerto pc:container
+      - 27027:27027
+    # guardamos data en este volumen aparte
+    volumes:
+      # mapeamos carpetas ./mongo:carpeta donde graba mongo
+      - ./mongo:/data/db
