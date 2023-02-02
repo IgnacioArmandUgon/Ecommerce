@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
 import React from 'react';
-import { ShopLayout } from '../layouts';
 
 const FullScreenLoading = () => {
   return (
