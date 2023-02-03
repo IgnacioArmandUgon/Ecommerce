@@ -21,8 +21,8 @@ export const ProductCard: FC<Props> = ({ product }) => {
 
   const productImage = useMemo(() => {
     return isHovered
-      ? `products/${product.images[1]}`
-      : `products/${product.images[0]}`;
+      ? `/products/${product.images[1]}`
+      : `/products/${product.images[0]}`;
   }, [isHovered, product.images]);
   return (
     <Grid
@@ -38,7 +38,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
             <CardActionArea>
               <CardMedia
                 component={'img'}
-                image={`products/${product.images[isHovered ? 1 : 0]}`}
+                image={`/products/${product.images[isHovered ? 1 : 0]}`}
                 alt={product.title}
                 className='fadeIn'
                 onLoad={() => setIsImgLoaded(true)}
