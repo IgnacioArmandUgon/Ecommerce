@@ -13,7 +13,7 @@ const FullScreenLoading = () => {
         flexDirection: { xs: 'column', sm: 'row' },
       }}
     >
-      <Typography sx={{ mb: 3 }} fontSize={20}>
+      <Typography sx={{ mr: 3 }} fontSize={25}>
         Cargando...
       </Typography>
       <CircularProgress thickness={5} />

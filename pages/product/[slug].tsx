@@ -1,14 +1,19 @@
 import { Box, Button, Chip, Grid, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { ShopLayout } from '../../components/layouts';
 import { ProductCounter, SizeSelector, SlidesShow } from '../../components/ui';
 import { initialData } from '../../database/products';
+import { useProducts } from '../../hooks/useProducts';
 
 const product = initialData.products[1];
-
 const ProductPage = () => {
+  // const router = useRouter();
+  // const { products: product, isLoading } = useProducts(
+  //   `/products/${router.query.slug}`
+  // );
   return (
-    <ShopLayout title={product.title} pageDescription={product.description}>
+    <ShopLayout title={product?.title} pageDescription={product?.description}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={7}>
           <SlidesShow images={product.images} />
@@ -48,4 +53,5 @@ const ProductPage = () => {
     </ShopLayout>
   );
 };
+
 export default ProductPage;

@@ -7,8 +7,7 @@ import { useProducts } from '../../hooks/useProducts';
 
 const MenPage = () => {
   const { products, isLoading, isError } = useProducts('products?gender=men');
-  console.log({ isError });
-  console.log({ products });
+
   return (
     <ShopLayout
       title='Hombres'

@@ -6,9 +6,16 @@ import IconButton from '@mui/material/IconButton';
 
 //NextLink de antemano empieza a hacer el prefetch de la otra pagina
 import NextLink from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useContext } from 'react';
+import { UiContext } from '../../context';
 
 const Navbar = () => {
+  const router = useRouter();
+  const url = router.pathname;
+
+  const { toggleSideMenu } = useContext(UiContext);
+
   return (
     <AppBar>
       <Toolbar>
@@ -19,21 +26,26 @@ const Navbar = () => {
           </Link>
         </NextLink>
         <Box flex={1} />
-
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
           <NextLink href={'/category/men'} passHref>
             <Link>
-              <Button>Men</Button>
+              <Button color={url === '/category/men' ? 'primary' : 'info'}>
+                Men
+              </Button>
             </Link>
           </NextLink>
           <NextLink href={'/category/women'} passHref>
             <Link>
-              <Button>Women</Button>
+              <Button color={url === '/category/women' ? 'primary' : 'info'}>
+                Women
+              </Button>
             </Link>
           </NextLink>
           <NextLink href={'/category/kids'} passHref>
             <Link>
-              <Button>Kids</Button>
+              <Button color={url === '/category/kids' ? 'primary' : 'info'}>
+                Kids
+              </Button>
             </Link>
           </NextLink>
         </Box>
@@ -54,7 +66,7 @@ const Navbar = () => {
           </Link>
         </NextLink>
 
-        <Button>Menú</Button>
+        <Button onClick={() => toggleSideMenu()}>Menú</Button>
       </Toolbar>
     </AppBar>
   );
