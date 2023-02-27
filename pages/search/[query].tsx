@@ -9,15 +9,19 @@ import { IProduct } from '../../interfaces';
 
 interface Props {
   products: IProduct[];
+  areProducts: boolean;
+  query: string;
 }
-const SearchPage: NextPage<Props> = ({ products }) => {
+const SearchPage: NextPage<Props> = ({ products, areProducts, query }) => {
   return (
     <ShopLayout title='Ecommerce' pageDescription='Pagina de venta de productos de calidad'>
       <Typography variant='h1' component='h1'>
         Buscar producto
       </Typography>
       <Typography variant='h2' component='h2'>
-        asdnasdnasd
+        {areProducts
+          ? `Resultados de busqueda para '${query}'`
+          : `No pudimos encontrar ningun producto, tal vez estos te gusten`}
       </Typography>
 
       <ProductList products={products} />
@@ -38,8 +42,13 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   let products = await dbProducts.getProducsByTerms(query);
+  const areProducts = products.length > 0;
 
-  return { props: { products } };
+  if (!areProducts) {
+    products = await dbProducts.getAllProducts();
+  }
+
+  return { props: { products, areProducts, query } };
 };
 
 export default SearchPage;

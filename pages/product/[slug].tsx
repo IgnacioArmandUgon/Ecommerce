@@ -1,17 +1,15 @@
 import { Box, Button, Chip, Grid, Typography } from '@mui/material';
-import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import React from 'react';
 import { ShopLayout } from '../../components/layouts';
 import { ProductCounter, SizeSelector, SlidesShow } from '../../components/ui';
 import { dbProducts } from '../../database';
-import { getProductBySlug } from '../../database/dbProducts';
 import { IProduct } from '../../interfaces';
 
 interface Props {
   product: IProduct;
 }
 
-// const product = initialData.products[1];
 const ProductPage: NextPage<Props> = ({ product }) => {
   // const router = useRouter();
   // const { products: product, isLoading } = useProducts(
@@ -42,12 +40,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               Agregar al carrito
             </Button>
 
-            <Chip
-              label='No hay disponibles'
-              color='error'
-              variant='outlined'
-              sx={{ mt: 1 }}
-            />
+            <Chip label='No hay disponibles' color='error' variant='outlined' sx={{ mt: 1 }} />
 
             <Box sx={{ mt: 3 }}>
               <Typography variant='subtitle2'>Descripción</Typography>
@@ -76,7 +69,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 //   return { props: { product } };
 // };
 //
-//Es mas recomendable usar SSR
+//Es mas recomendable usar SSG
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
   const productSlugs = await dbProducts.getAllProductSlugs();
@@ -102,7 +95,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
   return {
     props: { product },
-    revalidate: 24,
+    revalidate: 60 * 60 * 24,
   };
 };
 

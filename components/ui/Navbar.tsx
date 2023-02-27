@@ -1,5 +1,5 @@
-import { SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
-import { AppBar, Toolbar, Link, Typography, Box } from '@mui/material';
+import { ClearOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
+import { AppBar, Toolbar, Link, Typography, Box, Input, InputAdornment } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -7,14 +7,22 @@ import IconButton from '@mui/material/IconButton';
 //NextLink de antemano empieza a hacer el prefetch de la otra pagina
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UiContext } from '../../context';
 
 const Navbar = () => {
   const router = useRouter();
   const url = router.pathname;
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   const { toggleSideMenu } = useContext(UiContext);
+
+  const onSearchTerm = () => {
+    if (searchTerm.trim().length === 0) return;
+
+    router.push(`/search/${searchTerm}`);
+  };
 
   return (
     <AppBar>
@@ -26,36 +34,59 @@ const Navbar = () => {
           </Link>
         </NextLink>
         <Box flex={1} />
-        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Box
+          sx={{ display: isSearching ? 'none' : { xs: 'none', sm: 'block' } }}
+          className='fadeIn'
+        >
           <NextLink href={'/category/men'} passHref>
             <Link>
-              <Button color={url === '/category/men' ? 'primary' : 'info'}>
-                Men
-              </Button>
+              <Button color={url === '/category/men' ? 'primary' : 'info'}>Men</Button>
             </Link>
           </NextLink>
           <NextLink href={'/category/women'} passHref>
             <Link>
-              <Button color={url === '/category/women' ? 'primary' : 'info'}>
-                Women
-              </Button>
+              <Button color={url === '/category/women' ? 'primary' : 'info'}>Women</Button>
             </Link>
           </NextLink>
           <NextLink href={'/category/kids'} passHref>
             <Link>
-              <Button color={url === '/category/kids' ? 'primary' : 'info'}>
-                Kids
-              </Button>
+              <Button color={url === '/category/kids' ? 'primary' : 'info'}>Kids</Button>
             </Link>
           </NextLink>
         </Box>
-
         <Box flex={1} />
+        {/* DEV */}
 
-        <IconButton>
+        {isSearching ? (
+          <Input
+            sx={{ display: { xs: 'none', sm: 'flex' } }}
+            className='fadeIn'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            type='text'
+            onKeyPress={(e) => (e.key === 'Enter' ? onSearchTerm() : null)}
+            placeholder='Buscar...'
+            endAdornment={
+              <InputAdornment position='end'>
+                <IconButton aria-label='toggle password visibility' onClick={() => onSearchTerm()}>
+                  <ClearOutlined onClick={() => setIsSearching(false)} />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        ) : (
+          <IconButton
+            sx={{ display: { xs: 'none', sm: 'flex' } }}
+            onClick={() => setIsSearching(true)}
+          >
+            <SearchOutlined />
+          </IconButton>
+        )}
+
+        {/* MOBILE */}
+        <IconButton sx={{ display: { xs: 'flex', sm: 'none' } }} onClick={() => toggleSideMenu()}>
           <SearchOutlined />
         </IconButton>
-
         <NextLink href={'/cart'} passHref>
           <Link>
             <IconButton>
@@ -65,7 +96,6 @@ const Navbar = () => {
             </IconButton>
           </Link>
         </NextLink>
-
         <Button onClick={() => toggleSideMenu()}>Menú</Button>
       </Toolbar>
     </AppBar>

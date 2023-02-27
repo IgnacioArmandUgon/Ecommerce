@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { lightTheme } from '../themes';
 import { SWRConfig } from 'swr';
-import { UiProvider } from '../context';
+import { UiProvider, CartProvider } from '../context';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const AnyComponent = Component as any;
@@ -14,10 +14,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
     >
       <UiProvider>
-        <ThemeProvider theme={lightTheme}>
-          <CssBaseline />
-          <AnyComponent {...pageProps} />
-        </ThemeProvider>
+        <CartProvider>
+          <ThemeProvider theme={lightTheme}>
+            <CssBaseline />
+            <AnyComponent {...pageProps} />
+          </ThemeProvider>
+        </CartProvider>
       </UiProvider>
     </SWRConfig>
   );

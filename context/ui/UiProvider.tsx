@@ -23,5 +23,5 @@ export const UiProvider: FC = ({ children }) => {
   );
 };
 
-//Se crea un componente funcional que sea el que provea la data del contexto, que vendrá del reducer.
+//Se crea un componente funcional que será el que provea la data del contexto, que vendrá del reducer.
 //También se crea el tipado para el state del contexto
