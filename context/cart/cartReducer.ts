@@ -44,6 +44,9 @@ export const cartReducer = (state: CartState, action: CartActionType): CartState
     //     ...state,
     //     cart: [...newStateCart],
     //   };
+
+    case '[CART] Load cart from cookies | storage':
+      return { ...state, cart: action.payload };
     default:
       return state;
   }

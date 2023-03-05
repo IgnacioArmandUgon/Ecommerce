@@ -1,4 +1,4 @@
-import React, { FC, useReducer } from 'react';
+import React, { FC, useEffect, useReducer } from 'react';
 import { ICartProduct } from '../../interfaces';
 import { CartContext } from './CartContext';
 import { cartReducer } from './cartReducer';
@@ -14,10 +14,22 @@ const CART_INITIAL_STATE: CartState = {
 export const CartProvider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, CART_INITIAL_STATE);
 
+  useEffect(() => {
+    const cartFromCookies = Cookies.get('cart') ? JSON.parse(Cookies.get('cart')!) : [];
+
+    return dispatch({
+      type: '[CART] Load cart from cookies | storage',
+      payload: cartFromCookies,
+    });
+  }, []);
+
+  useEffect(() => {
+    Cookies.set('cart', JSON.stringify(state.cart));
+  }, [state.cart]);
+
   const addProductToCart = (product: ICartProduct) => {
     const isProductInCart = state.cart.some((p) => p._id === product._id);
     if (!isProductInCart) {
-      console.log('entré 1');
       return dispatch({
         type: '[CART] Update products in cart',
         payload: [...state.cart, product],
@@ -28,7 +40,6 @@ export const CartProvider: FC = ({ children }) => {
     );
 
     if (!isProductInCartAndDifferentSize) {
-      console.log('entré 2');
       return dispatch({
         type: '[CART] Update products in cart',
         payload: [...state.cart, product],
@@ -40,7 +51,7 @@ export const CartProvider: FC = ({ children }) => {
       p.quantity += product.quantity;
       return p;
     });
-    console.log('entré 3');
+
     console.log({ updatedProducts });
     return dispatch({
       type: '[CART] Update products in cart',
