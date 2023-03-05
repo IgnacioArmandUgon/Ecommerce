@@ -6,6 +6,7 @@ import {
   Box,
   Typography,
   Link,
+  Chip,
 } from '@mui/material';
 import React, { FC, useMemo, useState } from 'react';
 import { IProduct } from '../../interfaces';
@@ -36,6 +37,13 @@ export const ProductCard: FC<Props> = ({ product }) => {
         <NextLink href={`/product/${product.slug}`} passHref prefetch={false}>
           <Link>
             <CardActionArea>
+              {product.inStock === 0 && (
+                <Chip
+                  color='primary'
+                  label='No disponible'
+                  sx={{ position: 'absolute', zIndex: 99, top: '10px', left: '10px' }}
+                />
+              )}
               <CardMedia
                 component={'img'}
                 image={`/products/${product.images[isHovered ? 1 : 0]}`}
@@ -48,10 +56,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
         </NextLink>
       </Card>
 
-      <Box
-        sx={{ mt: 1, display: isImgLoaded ? 'block' : 'none' }}
-        className='fadeIn'
-      >
+      <Box sx={{ mt: 1, display: isImgLoaded ? 'block' : 'none' }} className='fadeIn'>
         <Typography fontWeight={750}>{product.title}</Typography>
         <Typography fontWeight={500}>${product.price}</Typography>
       </Box>

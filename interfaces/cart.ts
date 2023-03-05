@@ -2,9 +2,9 @@ import { ISize } from './products';
 
 export interface ICartProduct {
   _id: string;
-  images: string;
+  image: string;
   price: number;
-  size: ISize;
+  size?: ISize;
   slug: string;
   tags: string[];
   title: string;
