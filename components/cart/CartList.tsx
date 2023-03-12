@@ -11,17 +11,25 @@ import {
 import NextLink from 'next/link';
 import { ProductCounter } from '../ui';
 import { CartContext } from '../../context';
+import { ICartProduct } from '../../interfaces';
 
 interface Props {
   editable: boolean;
 }
 export const CartList: FC<Props> = ({ editable }) => {
-  const { cart } = useContext(CartContext);
-  console.log(cart);
+  const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext);
+
+  const onChangeQuantity = (product: ICartProduct, quantity: number) => {
+    if (quantity > 0 && quantity <= 10) {
+      product.quantity = quantity;
+      updateCartQuantity(product);
+    }
+  };
+  console.log({ cart });
   return (
     <>
       {cart.map((product) => (
-        <Grid container spacing={2} sx={{ mt: 2 }} key={product.slug}>
+        <Grid container spacing={2} sx={{ mt: 2 }} key={product.slug + product.size}>
           <Grid xs={3}>
             <NextLink href={`/product/${product.slug}`}>
               <Link>
@@ -42,7 +50,12 @@ export const CartList: FC<Props> = ({ editable }) => {
                 Talla <strong>{product.size}</strong>
               </Typography>
               {editable ? (
-                <ProductCounter quantity={product.quantity} onChangeQuantity={() => {}} />
+                <ProductCounter
+                  quantity={product.quantity}
+                  onChangeQuantity={(value) => {
+                    onChangeQuantity(product, value);
+                  }}
+                />
               ) : (
                 <Typography variant='h5'>
                   {product.quantity} producto{product.quantity > 1 && 's'}
@@ -50,10 +63,14 @@ export const CartList: FC<Props> = ({ editable }) => {
               )}
             </Box>
           </Grid>
-          <Grid xs={2} display='flex' alignItems={'center'} flexDirection={'column'}>
+          <Grid xs={2} item display='flex' alignItems={'center'} flexDirection={'column'}>
             <Typography variant='h5'>${product.price}</Typography>
             {editable && (
-              <Button variant='text' color='secondary'>
+              <Button
+                variant='text'
+                color='secondary'
+                onClick={() => removeCartProduct(product)}
+              >
                 Remover
               </Button>
             )}

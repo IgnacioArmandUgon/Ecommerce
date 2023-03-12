@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { CartList, OrderSummary } from '../../components/cart';
 import { ShopLayout } from '../../components/layouts';
@@ -19,7 +11,7 @@ const CartPage = () => {
       </Typography>
       <Grid container>
         <Grid item xs={12} sm={7}>
-          <CartList editable={false} />
+          <CartList editable={true} />
         </Grid>
 
         <Grid item xs={12} sm={5}>
