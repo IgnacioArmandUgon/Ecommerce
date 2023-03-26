@@ -4,7 +4,7 @@
 docker-compose up -d
 ```
 
-_El -d significa **detached**_
+_El -d significa **detached** y ejecutará el proceso en segundo plano, dejandote la consola libre_
 
 ## MongoDB url local
 

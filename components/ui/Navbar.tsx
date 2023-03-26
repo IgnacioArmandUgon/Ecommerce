@@ -1,5 +1,13 @@
 import { ClearOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
-import { AppBar, Toolbar, Link, Typography, Box, Input, InputAdornment } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Link,
+  Typography,
+  Box,
+  Input,
+  InputAdornment,
+} from '@mui/material';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -8,7 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
-import { UiContext } from '../../context';
+import { CartContext, UiContext } from '../../context';
 
 const Navbar = () => {
   const router = useRouter();
@@ -17,6 +25,7 @@ const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const { toggleSideMenu } = useContext(UiContext);
+  const { numberOfItems } = useContext(CartContext);
 
   const onSearchTerm = () => {
     if (searchTerm.trim().length === 0) return;
@@ -45,7 +54,9 @@ const Navbar = () => {
           </NextLink>
           <NextLink href={'/category/women'} passHref>
             <Link>
-              <Button color={url === '/category/women' ? 'primary' : 'info'}>Women</Button>
+              <Button color={url === '/category/women' ? 'primary' : 'info'}>
+                Women
+              </Button>
             </Link>
           </NextLink>
           <NextLink href={'/category/kids'} passHref>
@@ -68,7 +79,10 @@ const Navbar = () => {
             placeholder='Buscar...'
             endAdornment={
               <InputAdornment position='end'>
-                <IconButton aria-label='toggle password visibility' onClick={() => onSearchTerm()}>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={() => onSearchTerm()}
+                >
                   <ClearOutlined onClick={() => setIsSearching(false)} />
                 </IconButton>
               </InputAdornment>
@@ -84,13 +98,19 @@ const Navbar = () => {
         )}
 
         {/* MOBILE */}
-        <IconButton sx={{ display: { xs: 'flex', sm: 'none' } }} onClick={() => toggleSideMenu()}>
+        <IconButton
+          sx={{ display: { xs: 'flex', sm: 'none' } }}
+          onClick={() => toggleSideMenu()}
+        >
           <SearchOutlined />
         </IconButton>
         <NextLink href={'/cart'} passHref>
           <Link>
             <IconButton>
-              <Badge badgeContent={2} color='secondary'>
+              <Badge
+                badgeContent={numberOfItems > 9 ? '+9' : numberOfItems}
+                color='secondary'
+              >
                 <ShoppingCartOutlined />
               </Badge>
             </IconButton>
